@@ -25,6 +25,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('css/iconLayers.css') }}">
     <link rel="stylesheet" type="text/css"
         href="https://rawgit.com/MarcChasse/leaflet.ScaleFactor/master/leaflet.scalefactor.min.css">
+    <link rel="stylesheet" href="{{ asset('css/L.VisualClick.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link rel="stylesheet" type="text/css" href="https://todemo.online/assets/L.Control.ZoomBar.css" />
+
+
 
     <!-- REQUIRED SCRIPTS -->
 
@@ -37,10 +43,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Leaflet -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script type="text/javascript" src="https://todemo.online/assets/L.Control.ZoomBar.js"></script>
+
 </head>
 
 <body class="hold-transition layout-top-nav">
     <div class="wrapper">
+
 
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">

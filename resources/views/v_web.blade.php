@@ -2,10 +2,19 @@
 
 @section('content')
 
-    <div id="map" style="width: 100vw; height: 75vh;"></div>
+
+    <div id="map" style="width: 100vw; height: 75vh;" data-aos="zoom-out-up" data-aos-delay="300"></div>
 
     <script src="{{ asset('js/iconLayers.js') }}"></script>
+    <script src="{{ asset('js/L.VisualClick.js') }}"></script>
     <script src="https://rawgit.com/MarcChasse/leaflet.ScaleFactor/master/leaflet.scalefactor.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            easing: 'ease-out-back',
+            duration: 1000
+        });
+    </script>
 
     <script>
         /* Basemap Layers */
@@ -45,12 +54,33 @@
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
         });
 
+        let Esri_WorldImagery = L.tileLayer(
+            'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+            });
+
+        let Esri_WorldStreetMap = L.tileLayer(
+            'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+            });
+
         let map = L.map('map', {
             zoom: 13,
             center: [-3.314771, 114.6185566],
-            layers: [osmDark]
+            layers: [osmDark],
+            visualClickEvents: 'click contextmenu',
+            zoomControl: false,
 
         });
+
+        L.Control.geocoder({
+            position: "topleft",
+            collapsed: true
+        }).addTo(map);
+
+        let zoom_bar = new L.Control.ZoomBar({
+            position: 'topleft'
+        }).addTo(map);
 
         let baseLayers = {
             "Street Map": cartoLight,
@@ -59,7 +89,11 @@
 
             "Mapbox Dark": osmDark,
 
-            "Mapbox Satellite": osmSatellite
+            "Mapbox Satellite": osmSatellite,
+
+            "Esri Imagery": Esri_WorldImagery,
+
+            "Esri Street": Esri_WorldStreetMap
         };
 
         L.control.layers(baseLayers).addTo(map);
@@ -88,6 +122,16 @@
                     title: 'Dark',
                     layer: osmDark,
                     icon: '{{ asset('img/icons/stamen_toner.png') }}'
+                },
+                {
+                    title: 'Esri Satellite',
+                    layer: Esri_WorldImagery,
+                    icon: '{{ asset('img/icons/here_satelliteday.png') }}'
+                },
+                {
+                    title: 'Esri Street',
+                    layer: Esri_WorldStreetMap,
+                    icon: '{{ asset('img/icons/here_satelliteday.png') }}'
                 },
 
             ], {
